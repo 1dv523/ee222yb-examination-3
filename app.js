@@ -27,14 +27,15 @@ const ghrepo = client.repo(org + '/' + repo)
 ghrepo.hook({
   name: 'web',
   active: true,
-  events: ['issues'], //, issue_comment
+  events: ['issues', 'issue_comment'],
   config: {
-    url: 'http://18c12bd2.ngrok.io/payload'
+    url: 'https://18c12bd2.ngrok.io/payload'
   }
-}, () => console.log('created web hook'))
+}, () => console.log('Registered web hook'))
 
 // receive data from hook
 app.post('/payload', (req, res) => {
+  console.log('received event')
   getIssues(io)
 })
 
@@ -43,8 +44,23 @@ io.on('connection', async socket => {
   getIssues(socket)
 })
 
-const getIssues = async socket => {
-  client.get('/repos/' + org + '/' + repo + '/issues', { state: 'all' }, (req, status, body, headers) => {
+const getIssues = socket => {
+  client.get('/repos/' + org + '/' + repo + '/issues', { state: 'all' }, (err, status, body, headers) => {
+    if (err) {
+      // TODO server error
+      console.error(err)
+    }
     socket.emit('issues', { repo: repo, issues: body })
+  })
+}
+
+const getComments = (socket, issueNr) => {
+  client.get('/repos/' + org + '/' + repo + '/issues/' + issueNr + '/comments', {}, (err, status, body, headers) => {
+    if (err) {
+      // TODO server error
+      console.error(err)
+    }
+    console.log(body)
+    socket.emit('comments', { comments: body })
   })
 }
