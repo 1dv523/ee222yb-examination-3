@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <script type="module" src="js/chat.js"></script> -->
+    <template id="issueTemplate">
+      <div class="issue">
+        <div class="header"></div>
+        <div class="content"></div>
+        <div class="properties"></div>
+      </div>
+    </template>
+  </head>
+  <body>
+
+    <h1></h1>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io()
+      
+      const issue = document.querySelector('#issue')
+
+      socket.on('firstIssues', data => {
+        document.body.querySelector('h1').textContent = 'Issues of ' + data.repo
+        for(const issue of data.issues) {
+          console.log(issue)
+          addIssue(issue)
+        }
+      })
+      
+      const addIssue = data => {
+        document.body.appendChild(issueTemplate.content.cloneNode(true))
+        const newIssue = document.body.lastElementChild
+        newIssue.querySelector('.header').textContent = '#' + data.number + ' ' + data.title
+        newIssue.querySelector('.content').textContent = data.body
+        const properties = newIssue.querySelector('.properties')
+        properties.textContent = 'Created by: ' + data.user.login + ' at ' + data.created_at
+        properties.textContent += ', ' + data.comments + ' comments'
+        // data.assignees.forEach(assignee => {
+        //   newIssue.querySelector('.properties').textContent += assignee.login + ', '
+        // })
+
+        newIssue.classList.add(data.state)
+      }
+
+      socket.on('', data => {
+        
+      })
+    </script>
+  
+  </body>
+</html>

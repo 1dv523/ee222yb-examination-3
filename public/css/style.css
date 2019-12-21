@@ -1,0 +1,32 @@
+body {
+}
+
+.issue {
+  width: calc(100%-200px);
+  min-height: 60px;
+  margin-bottom: 10px;
+  padding: 2px 5px;
+  border: 1px solid black;
+}
+
+.issue .header {
+  font-size: 125%;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.issue .properties {
+  font-size: 70%;
+}
+
+.issue .comment {
+  margin: 5px 10px;
+}
+
+.issue.closed {
+  background-color: rgba(15s0, 50, 50, .5);
+}
+
+.issue.open {
+  background-color: rgba(50, 150, 50, .5);
+}
