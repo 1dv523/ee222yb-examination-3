@@ -15,25 +15,41 @@
   </head>
   <body>
 
+    <!-- ngrok redirect test -->
+    <!-- <form method="post" action="http://18c12bd2.ngrok.io/payload">
+      <button>test</button>
+    </form> -->
+
     <h1></h1>
 
+    <div id="issueContainer"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io()
-      
-      const issue = document.querySelector('#issue')
+      const issueContainer = document.querySelector('#issueContainer')
 
-      socket.on('firstIssues', data => {
+      // first issue get
+      socket.on('issues', data => {
         document.body.querySelector('h1').textContent = 'Issues of ' + data.repo
+        while(issueContainer.lastChild) {
+          issueContainer.lastChild.remove()
+        }
         for(const issue of data.issues) {
-          console.log(issue)
+          // console.log(issue)
           addIssue(issue)
         }
       })
+
+      // server received an udpate via webhook and forwarded it
+      // socket.on('issueChange', data => {
+      //   console.log(data)
+      // })
+
       
       const addIssue = data => {
-        document.body.appendChild(issueTemplate.content.cloneNode(true))
-        const newIssue = document.body.lastElementChild
+        issueContainer.appendChild(issueTemplate.content.cloneNode(true))
+        const newIssue = issueContainer.lastElementChild
+
         newIssue.querySelector('.header').textContent = '#' + data.number + ' ' + data.title
         newIssue.querySelector('.content').textContent = data.body
         const properties = newIssue.querySelector('.properties')

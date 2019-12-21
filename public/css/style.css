@@ -24,9 +24,9 @@ body {
 }
 
 .issue.closed {
-  background-color: rgba(15s0, 50, 50, .5);
+  background-color: rgba(173, 116, 116, 0.5);
 }
 
 .issue.open {
-  background-color: rgba(50, 150, 50, .5);
+  background-color: rgba(95, 145, 95, 0.5);
 }
