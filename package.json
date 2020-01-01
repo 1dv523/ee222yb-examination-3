@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/1dv523/ee222yb-examination-3#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-x-hub": "^1.0.4",
     "nodemon": "^2.0.2",
     "octonode": "^0.9.5",
     "socket.io": "^2.3.0"
