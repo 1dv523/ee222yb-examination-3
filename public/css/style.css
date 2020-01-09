@@ -1,4 +1,51 @@
-body {
+body, .menu .markedToggleButton {
+  background-color: #fff;
+}
+
+.menu {
+  /* border: 1px dashed blue; */
+  background-color: #eee;
+  margin: -10px;
+  margin-right: -8px;
+  margin-bottom: 0;
+  padding: 15px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid grey;
+}
+
+.menu a {
+  position: relative;
+  padding: 5px 10px;
+  border: 1px solid grey;
+  border-bottom: 0;
+  border-radius: 2px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  text-decoration: none;
+  bottom: -1px;
+
+  user-select: none;
+
+  color: #777;
+}
+
+.menu .markedToggleButton {
+  padding: 6px 12px;
+  font-size: 125%;
+  bottom: .5px;
+  
+  color: #222;
+}
+
+.toggleButttons {
+  white-space: nowrap;
+}
+
+#issueContainer {
+  /* border: 1px dotted red; */
+  padding-left: 10px;
+  margin-top: 4px;
+  padding-top: 5px;
 }
 
 .issue {
@@ -16,6 +63,7 @@ body {
 }
 
 .issue .properties {
+  display: inline;
   font-size: 70%;
 }
 
@@ -29,4 +77,8 @@ body {
 
 .issue.open {
   background-color: rgba(95, 145, 95, 0.5);
+}
+
+.issue.comments {
+  display: inline,
 }

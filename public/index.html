@@ -4,52 +4,23 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
-    <template id="issueTemplate">
-      <div class="issue">
-        <div class="header"></div>
-        <div class="content"></div>
-        <div class="properties"></div>
-      </div>
-    </template>
+    <script type="module" src="js/websocket.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Issues</title>
   </head>
   <body>
-    <h1></h1>
+    <div class="menu">
+      <h1></h1>
+      
+      <div class="toggleButttons">
+        <a href="#" id="toggleAll">All</a>
+        <a href="#" id="toggleOpen">Open</a>
+        <a href="#" id="toggleClosed">Closed</a>
+      </div>
+    
+    </div>
 
     <div id="issueContainer"></div>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io()
-      const issueContainer = document.querySelector('#issueContainer')
-
-      let counter = 0
-      // server sent issues
-      socket.on('issues', data => {
-        const date = new Date()
-        const timestamp = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-        console.log((++counter) + '. received new issues @' + timestamp)
-        document.body.querySelector('h1').textContent = 'Issues of ' + data.repo
-        // remove old
-        while(issueContainer.lastChild) {
-          issueContainer.lastChild.remove()
-        }
-        // add new
-        data.issues.forEach(issue => addIssue(issue))
-      })
-      
-      const addIssue = (issue, comments) => {
-        issueContainer.appendChild(issueTemplate.content.cloneNode(true))
-        const newIssue = issueContainer.lastElementChild
-
-        newIssue.querySelector('.header').textContent = '#' + issue.number + ' ' + issue.title
-        newIssue.querySelector('.content').textContent = issue.body
-        const properties = newIssue.querySelector('.properties')
-        properties.textContent = 'Created by: ' + issue.user.login + ' at ' + issue.created_at
-        properties.textContent += ', ' + issue.comments + ' comments'
-
-        newIssue.classList.add(issue.state)
-      }
-    </script>
-  
   </body>
 </html>
