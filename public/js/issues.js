@@ -34,7 +34,7 @@ const displayIssues = (data, state) => {
   document.body.querySelector('h1').textContent = 'Issues of ' + data.repo
 
   if (!data.issues) {
-    issueContainer.textContent = 'Found no issues found for this repository'
+    issueContainer.textContent = 'Found no issues for this repository'
     return
   }
 
