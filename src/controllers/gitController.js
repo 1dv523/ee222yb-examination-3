@@ -10,11 +10,12 @@ controller.getIssues = async () => {
   return new Promise((resolve, reject) => {
     client.get('/repos/' + process.env.GIT_ORG + '/' + process.env.GIT_REPO + '/issues', { state: 'all' }, (err, status, body, headers) => {
       if (err) {
-        console.error('ERROR', err.statusCode, err.message)
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('ERROR', err.statusCode, err.message)
+        }
+        reject(err)
       }
       resolve(body)
-      // const socket = require('../app').io
-      // socket.emit('issues', { repo: repo, issues: body })
     })
   })
 }
@@ -28,7 +29,11 @@ controller.createIssueHook = () => {
       secret: process.env.GIT_SECRET,
       url: process.env.SITE_URL + '/issuehook'
     }
-  }, () => console.log('Registered web hook'))
+  }, () => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Registered web hook')
+    }
+  })
 }
 
 controller.validateHookOrigin = (req, res, buf, encoding) => {

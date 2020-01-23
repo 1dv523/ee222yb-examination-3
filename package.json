@@ -2,7 +2,7 @@
   "name": "ee222yb-examination-3",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "node app.js",
     "devstart": "nodemon app.js --inspector"
@@ -19,15 +19,17 @@
   },
   "homepage": "https://github.com/1dv523/ee222yb-examination-3#readme",
   "dependencies": {
+    "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
-    "morgan": "^1.9.1",
-    "nodemon": "^2.0.2",
     "octonode": "^0.9.5",
     "socket.io": "^2.3.0"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
   "nodemonConfig": {
-    "ext": "js, json, hbs, css, html"
+    "ext": "js, json, css, html"
   }
 }

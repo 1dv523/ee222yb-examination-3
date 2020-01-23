@@ -59,10 +59,6 @@ const addIssue = issue => {
   const properties = newIssue.querySelector('.properties')
   properties.textContent = 'Created by: ' + issue.user.login + ' at ' + issue.created_at
   properties.textContent += ', ' + issue.comments + ' comments'
-  // if (issue.comments) {
-  //   const comments = newIssue.querySelector('.comments')
-  // comments.innerHTML = `<i class="fa fa-comment-o"></i> ${issue.comments}`
-  // }
 
   newIssue.classList.add(issue.state)
 }

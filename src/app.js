@@ -6,7 +6,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
-const morgan = require('morgan')
+const compression = require('compression')
 
 const gitController = require('./controllers/gitController')
 
@@ -25,9 +25,9 @@ io.on('connection', socket => {
 })
 
 app.use(helmet())
-app.use(morgan('tiny'))
 
 app.use(express.static(path.join(__dirname, '/public')))
+app.use(compression())
 
 const getAndSendIssues = async socket => {
   const issues = await gitController.getIssues()
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ verify: gitController.validateHookOrigin, extend
 // 404 page not found or non-erroneous web hook request
 app.use((req, res, next) => {
   if (gitController.isHookRequest(req)) {
-    res.sendStatus(200)
+    res.sendStatus(200) // send ok response to github
     next()
   } else {
     res.sendFile(path.join(__dirname, 'public', 'error', '404.html'))
@@ -50,9 +50,12 @@ app.use((req, res, next) => {
 // 500 server error or hook validation failed
 app.use((err, req, res, next) => {
   if (gitController.isHookRequest(req)) {
-    console.error(err.message)
-    res.sendStatus(400)
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(err.message)
+    }
+    res.sendStatus(400) // validation failed - send bad request response to github
   } else {
+    console.error(err.message)
     res.sendFile(path.join(__dirname, 'public', 'error', '500.html'))
   }
 })
